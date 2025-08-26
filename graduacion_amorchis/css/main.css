@@ -170,11 +170,11 @@ body {
     
     /* Oculto inicialmente para la animación de scroll */
     opacity: 0;
-    transform: translateY(100px); /* Posición inicial más abajo */
+    transform: translateY(10px); /* Posición inicial más abajo */
     transition: opacity 1s ease, transform 1s ease;
     
     /* Agrega un margen para empujar el carrusel más abajo */
-    margin-top: 50vh; 
+    margin-top: 20vh; 
 }
 
 .carousel-section.visible {
