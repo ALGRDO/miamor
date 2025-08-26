@@ -98,6 +98,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     padding-top: 3rem;
+    height: 100%;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
