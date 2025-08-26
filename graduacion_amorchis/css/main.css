@@ -93,15 +93,15 @@ body {
 }
 
 .card-back {
-    background-color: white;
-    transform: rotateY(180deg);
-    flex-direction: column;
-    justify-content: flex-start;
-    padding-top: 3rem;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    background-color: white;
+    transform: rotateY(180deg);
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 3rem;
+    **height: 100%; /* Asegura que la altura sea la de su contenedor */**
+    **overflow-y: auto; /* Mantiene el desplazamiento solo dentro de esta tarjeta */**
+    -webkit-overflow-scrolling: touch;
 }
-
 /* Button & Scroll Prompt */
 .open-button {
     padding: 1rem 2.5rem;
