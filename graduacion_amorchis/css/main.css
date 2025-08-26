@@ -257,13 +257,3 @@ body {
 /* Para navegadores basados en WebKit (Chrome, Safari, etc.) */
 .carousel-track::-webkit-scrollbar {
     display: none;
-}
-
-.card-back-track {
-    -ms-overflow-style: none; /* Para Internet Explorer y Edge */
-    scrollbar-width: none;    /* Para Firefox */
-}
-
-.card-back-track::-webkit-scrollbar {
-    display: none;
-}
