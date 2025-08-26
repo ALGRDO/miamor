@@ -12,32 +12,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const images = document.querySelectorAll('.carousel-image');
     let currentIndex = 0;
 
-    // Función para actualizar los botones de navegación
     const updateNavButtons = () => {
         prevButton.disabled = currentIndex === 0;
         nextButton.disabled = currentIndex === images.length - 1;
     };
 
-    // Observer para el mensaje de cabecera que controla la aparición de la carta
     const headerObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            // Cuando el mensaje inicial sale de la vista (isIntersecting es false)
             if (!entry.isIntersecting) {
-                // Hacemos visible la tarjeta
                 mainCard.classList.add('visible');
-                // Dejamos de observar este elemento para no ejecutar el código repetidamente
                 headerObserver.unobserve(entry.target);
             }
         });
     }, {
-        // El umbral se establece en 0.1, lo que significa que se activa cuando el 10% del elemento ya no es visible.
-        threshold: 0.1 
+        threshold: 0.1
     });
 
-    // Empezamos a observar el mensaje de cabecera
     headerObserver.observe(headerMessage);
 
-    // Observer para el carrusel que controla su aparición
     const carouselObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -51,49 +43,70 @@ document.addEventListener('DOMContentLoaded', () => {
 
     carouselObserver.observe(carouselSection);
 
-    // Abrir la carta y revelar el contenido
+    // Abrir la carta y añadir la funcionalidad de desplazamiento automático
     openButton.addEventListener('click', () => {
         mainCard.classList.add('open');
         setTimeout(() => {
             cardBack.classList.add('opened');
+            
+            // Animación para que los párrafos aparezcan
             const paragraphs = letterContent.querySelectorAll('.paragraph');
             paragraphs.forEach((p, index) => {
                 p.style.transitionDelay = `${index * 0.3}s`;
                 p.style.opacity = '1';
                 p.style.transform = 'translateY(0)';
             });
+
+            // Lógica de desplazamiento automático
+            const totalScrollDuration = 30000; // 30 segundos en milisegundos
+            const startTime = Date.now();
+            
+            const scrollInterval = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const progress = elapsed / totalScrollDuration;
+
+                if (progress >= 1) {
+                    // Limpiar el intervalo cuando la animación haya terminado
+                    clearInterval(scrollInterval);
+                    return;
+                }
+
+                // Calcular la posición de desplazamiento actual
+                const scrollHeight = cardBack.scrollHeight - cardBack.clientHeight;
+                const newScrollTop = scrollHeight * progress;
+                cardBack.scrollTop = newScrollTop;
+
+            }, 50); // Mover cada 50 milisegundos para una animación fluida
+
         }, 1000);
     });
 
-    // Lógica para el botón 'siguiente' del carrusel
+    // Lógica del carrusel (sin cambios)
     nextButton.addEventListener('click', () => {
         if (currentIndex < images.length - 1) {
             currentIndex++;
             const imageWidth = images[currentIndex].offsetWidth;
-            const scrollAmount = imageWidth + 20; // 20px de padding
+            const scrollAmount = imageWidth + 20;
             carouselTrack.scrollBy({ left: scrollAmount, behavior: 'smooth' });
             updateNavButtons();
         }
     });
 
-    // Lógica para el botón 'anterior' del carrusel
     prevButton.addEventListener('click', () => {
         if (currentIndex > 0) {
             currentIndex--;
             const imageWidth = images[currentIndex].offsetWidth;
-            const scrollAmount = imageWidth + 20; // 20px de padding
+            const scrollAmount = imageWidth + 20;
             carouselTrack.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
             updateNavButtons();
         }
     });
-
-    // Sincroniza el índice del carrusel con el desplazamiento manual
+    
     carouselTrack.addEventListener('scroll', () => {
-        const imageWidth = images[0].offsetWidth + 20; // 20px de padding
+        const imageWidth = images[0].offsetWidth + 20;
         currentIndex = Math.round(carouselTrack.scrollLeft / imageWidth);
         updateNavButtons();
     });
 
-    // Inicializa el estado de los botones al cargar la página
     updateNavButtons();
 });
