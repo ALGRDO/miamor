@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             // Lógica de desplazamiento automático
-            const totalScrollDuration = 30000; // 30 segundos en milisegundos
+            const totalScrollDuration = 50000; // 50 segundos en milisegundos
             const startTime = Date.now();
             
             const scrollInterval = setInterval(() => {
