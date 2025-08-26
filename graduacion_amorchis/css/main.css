@@ -1,0 +1,268 @@
+:root {
+    --primary-color: #ff527b;
+    --secondary-color: #fce4ec;
+    --text-color: #333;
+    --bg-gradient: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+/* Base Styles & Background Animation */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-color);
+    background: var(--bg-gradient);
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* First Message & Fade-in Animation */
+.header-message {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.page-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2rem, 5vw, 4rem);
+    color: white;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Card Container for 3D Flip */
+.card-container {
+    width: 90%;
+    max-width: 600px;
+    height: 400px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s ease-in-out, opacity 0.5s ease-in-out;
+    opacity: 0;
+    margin-top: 50vh;
+    margin-bottom: 5rem;
+}
+
+.card-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Card Open Animation */
+.card-container.open {
+    transform: rotateY(180deg);
+}
+
+/* Front and Back of the Card */
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.card-front {
+    background-color: var(--secondary-color);
+    z-index: 2;
+}
+
+.card-back {
+    background-color: white;
+    transform: rotateY(180deg);
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 3rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Button & Scroll Prompt */
+.open-button {
+    padding: 1rem 2.5rem;
+    font-size: 1.5rem;
+    font-family: 'Dancing Script', cursive;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.open-button:hover {
+    transform: scale(1.1);
+}
+
+.scroll-prompt {
+    font-size: 1rem;
+    color: #999;
+    position: absolute;
+    top: 1rem;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+/* Letter Text & Appearance */
+.letter-content {
+    opacity: 0;
+    transition: opacity 1s ease 1s;
+    text-align: justify;
+}
+
+.card-back.opened .letter-content {
+    opacity: 1;
+}
+
+.paragraph {
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.card-back.opened .paragraph {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* NUEVOS ESTILOS DEL CARRUSEL */
+.carousel-section {
+    width: 100%;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    
+    /* Oculto inicialmente para la animación de scroll */
+    opacity: 0;
+    transform: translateY(100px); /* Posición inicial más abajo */
+    transition: opacity 1s ease, transform 1s ease;
+    
+    /* Agrega un margen para empujar el carrusel más abajo */
+    margin-top: 50vh; 
+}
+
+.carousel-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+.carousel-section h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    color: white;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.carousel-container {
+    position: relative;
+    width: 90%;
+    max-width: 700px;
+    aspect-ratio: 16/9; /* Proporción para el contenedor, ideal para fotos */
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+}
+
+.carousel-track {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+    transition: transform 0.5s ease-in-out; /* Transición para el deslizamiento con JS */
+}
+
+.carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ajusta la imagen sin cortarla */
+    scroll-snap-align: center;
+    flex-shrink: 0;
+    padding: 10px; /* Separación entre fotos */
+}
+
+/* Botones de navegación */
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.carousel-nav:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-nav.prev {
+    left: 10px;
+}
+
+.carousel-nav.next {
+    right: 10px;
+}
+/* Oculta la barra de desplazamiento del carrusel */
+.carousel-track {
+    -ms-overflow-style: none; /* Para Internet Explorer y Edge */
+    scrollbar-width: none;    /* Para Firefox */
+}
+
+/* Para navegadores basados en WebKit (Chrome, Safari, etc.) */
+.carousel-track::-webkit-scrollbar {
+    display: none;
+}
+
+.card-back-track {
+    -ms-overflow-style: none; /* Para Internet Explorer y Edge */
+    scrollbar-width: none;    /* Para Firefox */
+}
+
+.card-back-track::-webkit-scrollbar {
+    display: none;
+}
